@@ -56,12 +56,12 @@ if ($result_testimonials->num_rows > 0) {
     <link rel="stylesheet" href="CSS/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* --- Attractive UI and Visible Text Styles --- */
+        /* --- General Hero Styles (Retained) --- */
         .hero-section .hero-overlay {
             justify-content: flex-start;
             align-items: center;
             padding-left: 10%;
-            background-color: rgba(0, 0, 0, 0.6); /* Increased opacity for better readability */
+            background-color: rgba(0, 0, 0, 0.6); 
         }
         
         .hero-text-container {
@@ -73,73 +73,154 @@ if ($result_testimonials->num_rows > 0) {
             font-family: 'Madimi One', sans-serif;
             font-size: 4.5em;
             margin-bottom: 20px;
-            color: #FFD700; /* Gold color for heading */
+            color: #FFD700; 
             line-height: 1.1;
             font-weight: 700;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Span to specifically color "Tavern Publico" within the H1 */
         .hero-text-container h1 .brand-name {
-            color: #FFD700; /* Gold color for brand name */
+            color: #FFD700; 
         }
 
         .hero-text-container p {
             font-size: 1.3em;
             margin-bottom: 35px;
             max-width: 500px;
-            color: #FFFFFF; /* White color for paragraph */
+            color: #FFFFFF; 
             text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
         }
 
         .hero-buttons {
             display: flex;
             gap: 15px;
+            margin-top: 20px;
         }
 
-        /* --- FINAL, CORRECTED BUTTON UI --- */
+        /* --- NEW BLOB BUTTON STYLES (Gold & White, Preserving Box UI) --- */
+        
+        /* 1. Base style to contain the blob structure (Wrapper) */
         .hero-buttons .btn {
-            background-color: #2a2a2a;    
-            color: #ffffff;             
-            border: 1px solid #b0b0b0;   
-            border-radius: 8px;          
-            font-weight: bold;
-            padding: 14px 20px; 
-            font-size: 1em;
-            text-transform: none;        
-            transition: all 0.3s ease;
-            width: 180px; 
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 0; 
+            /* Width reduction applied here */
+            width: 150px; /* Reduced button width */
+            min-width: 150px; /* Reduced minimum button width */
+            position: relative; 
+            overflow: hidden; 
+            background: none;
+            border: none;
+            padding: 0; 
+            box-shadow: none;
+            text-transform: uppercase;
+            height: 48px; /* Fixed height based on original padding */
         }
         .hero-buttons .btn:hover {
-            background-color: #404040;   
-            border-color: #ffffff;       
-            transform: translateY(-2px);
+            transform: none; /* Disable global transform: translateY(-2px) for custom button */
         }
         
-        /* --- Original and utility styles --- */
-        .hero-bg-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); }
-        .rating-form-section { background-color: #f4f4f4; }
-        .rating-form { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 15px; }
-        .star-rating input { display: none; }
-        .star-rating label { font-size: 2rem; color: #ddd; cursor: pointer; transition: color 0.2s; }
-        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #f5b301; }
-        .slider-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 29px; }
-
-        @media (max-width: 992px) {
-             .hero-text-container h1 { font-size: 3.5em; }
+        /* 2. Blob Container (The visible button box - must be an inline-block for positioning) */
+        .blob-btn {
+            z-index: 1;
+            position: relative;
+            padding: 14px 20px; /* Original padding */
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            color: #333; /* Fixed: Dark text for contrast */
+            background-color: transparent;
+            outline: none;
+            border: none;
+            transition: color 0.5s;
+            cursor: pointer;
+            border-radius: 8px; /* Original border radius */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
         }
 
+        /* 3. Outer Border (The Gold Box) */
+        .blob-btn:before {
+            content: "";
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #FFD700; /* Border color: Gold */
+            border-radius: 8px;
+        }
+
+        /* 4. Inner Background Offset (The White Layer) */
+        .blob-btn:after {
+            content: "";
+            z-index: -2;
+            position: absolute;
+            left: 1px; /* Match border width */
+            top: 1px; 
+            width: 100%;
+            height: 100%;
+            background-color: #FFFFFF; /* Inner background offset: White */
+            transition: all 0.3s 0.2s;
+            border-radius: 8px;
+        }
+
+        /* 5. Hover Effects */
+        .blob-btn:hover {
+            color: #333; 
+        }
+
+        .blob-btn:hover:after {
+            transition: all 0.3s;
+            left: 0;
+            top: 0;
+        }
+
+        /* 6. Blob Container for the Gooey Fill */
+        .blob-btn__inner {
+            z-index: -1;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            background: #FFFFFF; /* Initial inner background: White */
+        }
+
+        .blob-btn__blobs {
+            position: relative;
+            display: block;
+            height: 100%;
+            filter: url('#goo');
+        }
+
+        .blob-btn__blob {
+            position: absolute;
+            top: 1px; 
+            width: 30%;
+            height: 100%;
+            background: #FFD700; /* Blob fill color: Gold */
+            border-radius: 100%;
+            transform: translate3d(0, 150%, 0) scale(1.4); 
+            transition: transform 0.45s;
+        }
+
+        /* Blob positioning and transition delays (for 4 blobs) */
+        .blob-btn__blob:nth-child(1) { left: 0%; transition-delay: 0s; }
+        .blob-btn__blob:nth-child(2) { left: 30%; transition-delay: 0.08s; }
+        .blob-btn__blob:nth-child(3) { left: 60%; transition-delay: 0.16s; }
+        .blob-btn__blob:nth-child(4) { left: 90%; transition-delay: 0.24s; }
+
+        .blob-btn:hover .blob-btn__blob {
+            transform: translateZ(0) scale(1.4);
+        }
+        
         @media (max-width: 768px) {
-            .hero-text-container h1 { font-size: 2.8em; }
-            .hero-text-container p { font-size: 1.1em; }
             .hero-buttons { flex-direction: column; align-items: flex-start; width: 80%; }
-            .hero-buttons .btn { width: 100%; text-align: center; }
-            .slider-wrapper { display: flex; }
+            .hero-buttons .btn { margin-bottom: 10px; width: 100%; min-width: 100%; } /* Ensure mobile buttons take full width */
         }
     </style>
 </head>
@@ -147,6 +228,16 @@ if ($result_testimonials->num_rows > 0) {
 <body>
 
     <?php include 'partials/header.php'; ?>
+    
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7" result="goo"></feColorMatrix>
+          <feBlend in2="SourceGraphic" in="goo"></feBlend>
+        </filter>
+      </defs>
+    </svg>
 
     <section class="hero-section">
         <div class="slideshow-container">
@@ -166,12 +257,49 @@ if ($result_testimonials->num_rows > 0) {
                                 <h1>Experience Authentic Flavors at <span class="brand-name">Tavern Publico</span></h1>
                                 <p>Craft coffee, comfort food, and a welcoming atmosphere in the heart of the city.</p>
                                 <div class="hero-buttons">
-                                    <a href="menu.php" class="btn btn-outline-white">View Menu</a>
+                                    
+<a href="menu.php" class="btn btn-outline-white">
+    <span class="blob-btn">
+        View Menu
+        <span class="blob-btn__inner">
+            <span class="blob-btn__blobs">
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+            </span>
+        </span>
+    </span>
+</a>
                                     <?php
                                     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-                                        echo '<a href="reserve.php" class="btn btn-secondary">Reserve Now</a>';
+                                        echo '<a href="reserve.php" class="btn btn-secondary">
+                                                  <span class="blob-btn">
+                                                      Reserve Now
+                                                      <span class="blob-btn__inner">
+                                                          <span class="blob-btn__blobs">
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                          </span>
+                                                      </span>
+                                                  </span>
+                                              </a>';
                                     } else {
-                                        echo '<button class="btn btn-secondary signin-button">Reserve Now</button>';
+                                        echo '<button class="btn btn-secondary signin-button">
+                                                  <span class="blob-btn">
+                                                      Reserve Now
+                                                      <span class="blob-btn__inner">
+                                                          <span class="blob-btn__blobs">
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                              <span class="blob-btn__blob"></span>
+                                                          </span>
+                                                      </span>
+                                                  </span>
+                                              </button>';
                                     }
                                     ?>
                                 </div>
@@ -192,12 +320,48 @@ if ($result_testimonials->num_rows > 0) {
                             <h1>Experience Authentic Flavors at <span class="brand-name">Tavern Publico</span></h1>
                             <p>Craft coffee, comfort food, and a welcoming atmosphere in the heart of the city.</p>
                             <div class="hero-buttons">
-                                <a href="menu.php" class="btn btn-outline-white">View Menu</a>
+                                
+<a href="menu.php" class="btn btn-outline-white">
+    <span class="blob-btn">
+        View Menu
+        <span class="blob-btn__inner">
+            <span class="blob-btn__blobs">
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+                <span class="blob-btn__blob"></span>
+            </span>
+        </span>
+    </span>
+</a>
                                 <?php
                                 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-                                    echo '<a href="reserve.php" class="btn btn-secondary">Reserve Now</a>';
+                                    echo '<a href="reserve.php" class="btn btn-secondary">
+                                              <span class="blob-btn">
+                                                  Reserve Now
+                                                  <span class="blob-btn__inner">
+                                                      <span class="blob-btn__blobs">
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                      </span>
+                                                  </span>
+                                              </span>
+                                          </a>';
                                 } else {
-                                    echo '<button class="btn btn-secondary signin-button">Reserve Now</button>';
+                                    echo '<button class="btn btn-secondary signin-button">
+                                              <span class="blob-btn">
+                                                  Reserve Now
+                                                  <span class="blob-btn__inner">
+                                                      <span class="blob-btn__blobs">
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                          <span class="blob-btn__blob"></span>
+                                                      </span>
+                                                  </span>
+                                              </button>';
                                 }
                                 ?>
                             </div>
